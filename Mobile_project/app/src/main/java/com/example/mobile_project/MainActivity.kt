@@ -2,6 +2,7 @@ package com.example.mobile_project
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -12,20 +13,31 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobile_project.databinding.ActivityMainBinding
-
+import com.jmedeisis.draglinearlayout.DragLinearLayout
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
+    lateinit var dragLinearLayout: DragLinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        //setContentView(binding.root)
+        setContentView(R.layout.activity_main)
+        dragLinearLayout = findViewById(R.id.container)
         setSupportActionBar(binding.appBarMain.toolbar)
+        for (i in 0 until dragLinearLayout.getChildCount()) {
 
+            // below is the child inside dragger layout
+            val child: View = dragLinearLayout.getChildAt(i)
+
+            // below line will set all children draggable
+            // except the header layout.
+            // the child is its own drag handle.
+            dragLinearLayout.setViewDraggable(child, child)
+        }
         binding.appBarMain.addBlock.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
